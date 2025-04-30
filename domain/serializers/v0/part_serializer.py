@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+
 
 class PartSerializer(BaseModel):
     id: int
@@ -8,8 +9,7 @@ class PartSerializer(BaseModel):
     weight_ounces: int | None = None
     is_active: bool = True
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class PartCreateSerializer(BaseModel):
     name: str
@@ -17,15 +17,11 @@ class PartCreateSerializer(BaseModel):
     description: str | None = None
     weight_ounces: int | None = None
     is_active: bool = True
-
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class PartUpdateSerializer(BaseModel):
     name: str | None = None
     description: str | None = None
     weight_ounces: int | None = None
     is_active: bool = True
-
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
