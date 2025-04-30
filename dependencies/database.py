@@ -1,17 +1,20 @@
-import os
-
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-
-engine = create_engine(os.getenv("DATABASE_URL"))
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 Base = declarative_base()
+SessionLocal = None
+engine = None
+
+def init_engine(database_url: str):
+    global engine, SessionLocal
+    engine = create_engine(database_url)
+    SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 def get_db():
-    db_session = SessionLocal()
+    if SessionLocal is None:
+        raise RuntimeError("Database engine not initialized. Call init_engine() first.")
+    db = SessionLocal()
     try:
-        yield db_session
+        yield db
     finally:
-        db_session.close()
+        db.close()
