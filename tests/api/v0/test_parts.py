@@ -1,5 +1,4 @@
 from domain.models.part import Part
-from domain.serializers.v0.part_serializer import PartUpdateSerializer
 
 
 class TestListParts:

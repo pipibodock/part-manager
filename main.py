@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
-from api.v0 import parts
+from api.v0 import analytics, parts
 from dependencies.database import init_engine
 
 
@@ -12,6 +12,7 @@ if os.getenv("PYTEST_RUNNING") != "1":
 
 app = FastAPI(title="Part Manager")
 app.include_router(parts.router)
+app.include_router(analytics.router)
 
 @app.get("/", include_in_schema=False)
 def root():
